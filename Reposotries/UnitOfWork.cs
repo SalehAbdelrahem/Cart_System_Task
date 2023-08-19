@@ -52,9 +52,9 @@ namespace Reposotries
         }
 
 
-        public async Task Save()
+        public int Save()
         {
-            await Context.SaveChangesAsync();
+           return Context.SaveChanges();
         }
 
 
