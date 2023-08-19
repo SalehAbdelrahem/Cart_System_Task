@@ -82,7 +82,7 @@ namespace Task.Controllers.AdminControllers
             try
             {
                 var product = ProductRepo.GetByID(id);
-                if (product is not null)
+                if (product is  null)
                 {
                     result.Message = "Not Foun This Product ";
                     return result;
@@ -114,7 +114,7 @@ namespace Task.Controllers.AdminControllers
             {
                 var product = ProductRepo.GetByID(model.Id);
 
-                if (product is not null)
+                if (product is  null)
                 {
                     result.Message = "Not Foun This Product ";
                     return result;

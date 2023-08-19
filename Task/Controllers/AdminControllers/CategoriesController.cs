@@ -16,12 +16,9 @@ namespace Task.Controllers.AdminControllers
         IGenericRepostory<Category> CategoryRepo;
         IGenericRepostory<Product> ProductRepo;
         IUnitOfWork UnitOfWork;
-        Project_Context Context;
         ResultViewModel result = new ResultViewModel();
-        public CategoriesController(Project_Context context,                     
-                                       IUnitOfWork unitOfWork)
+        public CategoriesController(IUnitOfWork unitOfWork)
         {
-            Context = context;
             UnitOfWork = unitOfWork;
             ProductRepo=unitOfWork.GetProductRepo();
             CategoryRepo = UnitOfWork.GetCategoryRepo();
@@ -105,7 +102,7 @@ namespace Task.Controllers.AdminControllers
             {
                 var category = CategoryRepo.GetByID(model.Id);
 
-                if (category is not null)
+                if (category is  null)
                 {
                     result.Message = "Not Found This Category ";
                     return result;
