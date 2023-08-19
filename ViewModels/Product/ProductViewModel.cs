@@ -10,6 +10,7 @@ namespace Final_Project
         public string Description { get; set; }
         public IList<string> ImagesURL { get; set; }
         public int Rate { get; set; }
+        public int CategoryId { get; set; }
 
     }
     public static class ProductViewModelExtensions
@@ -21,7 +22,6 @@ namespace Final_Project
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
-                // Image = product.Image,
                 Rate = product.Rate,
                 Description = product.Description
 

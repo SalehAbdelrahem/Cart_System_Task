@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ViewModels
+﻿namespace ViewModels
 {
     public class ToProduct
     {
@@ -14,7 +8,7 @@ namespace ViewModels
         public string Description { get; set; }
 
         public int Rate { get; set; }
-       
+
         public int Quantity { get; set; }
         //public string[] imgspaths { get; set; }
     }
@@ -30,7 +24,7 @@ namespace ViewModels
                 Description = insProduct.Description,
                 Quantity = insProduct.Quantity,
                 Rate = insProduct.Rate,
-               };
+            };
         }
     }
 }

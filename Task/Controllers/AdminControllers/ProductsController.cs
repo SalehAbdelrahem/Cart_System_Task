@@ -1,4 +1,5 @@
 ﻿using Data;
+using Final_Project;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Reposotries;
@@ -15,18 +16,17 @@ namespace Task.Controllers.AdminControllers
         IGenericRepostory<Images> ImageRepo;
         IUnitOfWork UnitOfWork;
         IUserRepository UserRepository;
-
         Project_Context Context;
         ResultViewModel result = new ResultViewModel();
 
-        public ProductsController(Project_Context context, 
+        public ProductsController(Project_Context context,
                                  IUserRepository userRepository,
                                  IUnitOfWork unitOfWork)
         {
             Context = context;
             UnitOfWork = unitOfWork;
             ProductRepo = UnitOfWork.GetProductRepo();
-           
+
             CategoryRepo = UnitOfWork.GetCategoryRepo();
             ImageRepo = UnitOfWork.GetImagesRepo();
             UserRepository = userRepository;
@@ -51,6 +51,101 @@ namespace Task.Controllers.AdminControllers
             return result;
 
         }
+        [HttpPost]
+
+        public ResultViewModel AddProduct(InsertProductViewModel model)
+        {
+            result.Message = "Add Product";
+            var product = model.ToProductModel();
+            var category = CategoryRepo.GetByID(model.CategoryId);
+            if (category is not null)
+            {
+                product.Category = category;
+            }
+            else
+            {
+                result.Message = "not Falid Add category For This Product";
+
+                return result;
+            }
+            ProductRepo.Add(product);
+
+            UnitOfWork.Save();
+
+            return result;
+
+        }
+        [HttpDelete]
+
+        public ResultViewModel DeleteProduct(int id)
+        {
+            try
+            {
+                var product = ProductRepo.GetByID(id);
+                if (product is not null)
+                {
+                    result.Message = "Not Foun This Product ";
+                    return result;
+                }
+                else
+                {
+                    ProductRepo.Remove(product);
+                    UnitOfWork.Save();
+                    result.Data = product;
+                    return result;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ResultViewModel()
+                {
+                    Message = ex.Message
+                };
+            }
+
+        }
+        [HttpPut]
+
+
+        public ResultViewModel UpdateProduct(ProductViewModel model)
+        {
+            try
+            {
+                var product = ProductRepo.GetByID(model.Id);
+
+                if (product is not null)
+                {
+                    result.Message = "Not Foun This Product ";
+                    return result;
+                }
+                else
+                {
+                    product.Name = model.Name;
+                    product.Price = model.Price;
+                    product.Rate = model.Rate;
+                    product.Description = model.Description;
+
+                    var category = CategoryRepo.GetByID(model.CategoryId);
+                    product.Category = category;
+
+                    ProductRepo.Update(product);
+                    UnitOfWork.Save();
+                    result.Data = product;
+                    return result;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ResultViewModel()
+                {
+                    Message = ex.Message
+                };
+            }
+
+        }
+
 
     }
 }
